@@ -1,0 +1,40 @@
+name: security
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: "0 0 * * 0"
+
+env:
+  GOPRIVATE: github.com/CheckmarxDev
+
+jobs:
+  gosec:
+    name: security-scan
+    runs-on: ubuntu-latest
+    env:
+      GO111MODULE: on
+    steps:
+      - name: Config Git Credentials
+        env:
+          TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        run: git config --global url."https://$TOKEN@github.com/".insteadOf "https://github.com/"
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17.x
+      - name: Add fo to path
+        run: echo $(go env GOPATH)/bin >> $GITHUB_PATH
+      - name: Checkout Source
+        uses: actions/checkout@v2.3.4
+      - name: Download gosec
+        run: curl -sfL https://raw.githubusercontent.com/securego/gosec/master/install.sh | sh -s -- -b $(go env GOPATH)/bin latest
+      - name: Run Gosec on Engine
+        working-directory: ./engine
+        run: make gosec
+      - name: Run Gosec on Worker
+        working-directory: ./worker
+        run: make gosec
