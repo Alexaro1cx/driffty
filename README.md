@@ -1,3 +1,5 @@
+<img alt="KICS - Keep Infrastructure as Code Secure" src="docs/img/driffty-logo-black.png" width="250">
+
 # Driffty
 
 Driffty detects infrastructure drift that could be a source of potential security issues and breaches.
