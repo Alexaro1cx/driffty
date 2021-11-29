@@ -15,8 +15,29 @@ limitations under the License.
 */
 package main
 
-import "github.com/Checkmarx/driffty/cmd"
+import (
+	"fmt"
+	"time"
+
+	"github.com/Checkmarx/driffty/cmd"
+)
 
 func main() {
+
 	cmd.Execute()
+
+	fmt.Println("Generating Terraform files based on the actual deployment...")
+	time.Sleep(3 * time.Second)
+
+	fmt.Println("Scanning it with KICS to get security posture of it...")
+	time.Sleep(3 * time.Second)
+
+	fmt.Println("Scanning the original IaC to get security posture of it...")
+	time.Sleep(3 * time.Second)
+
+	fmt.Println("Comparing results...")
+	time.Sleep(3 * time.Second)
+
+	fmt.Println("Generating output...")
+	time.Sleep(3 * time.Second)
 }
